@@ -59,12 +59,17 @@ app.get('/user/:user', function (req, res) {
 /**
  * GET users :from - :to.
  */
+const xss = require('xss');
 
 app.get('/users/:from-:to', function (req, res) {
   var from = req.params.from;
   var to = req.params.to;
   var names = users.map(function(user){ return user.name; });
   res.send('users ' + names.slice(from, to + 1).join(', '));
+});
+
+app.get('/test', function(req, res){
+    res.send('received ' + xss(req.param.sub));
 });
 
 /* istanbul ignore next */
